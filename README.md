@@ -2,6 +2,8 @@
 
 A simple diceware CLI that generates memorable and secure passwords. Heavily inspired from [Correct Horse Battery Staple.](https://www.correcthorsebatterystaple.net/)
 
+![](https://github.com/andtan91/rpg/blob/32c73f7cd72afbcb366bbd1a5338ad25c78cc595/docs/rpg_example.gif)
+
 ## Features
 - Completely offline
 - Option to generate character passwords
