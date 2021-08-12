@@ -17,23 +17,28 @@ impl PasswordSummary {
 
         let estimator = zxcvbn(password, &[]).expect("Failed to estimate password strength.");
 
-        let crack_times = estimator.crack_times();
-        let time_to_crack = crack_times.offline_fast_hashing_1e10_per_second();
-
-        let recommended = if estimator.score() > 3
-            && entropy >= 5
-            && Duration::from(time_to_crack).as_secs() > 10 * YEAR_IN_SECONDS
-        {
-            "✅"
+        let time_to_crack = estimator
+            .crack_times()
+            .offline_fast_hashing_1e10_per_second();
+        let time_to_crack_secs = Duration::from(time_to_crack).as_secs();
+        let time_to_crack_str = if time_to_crack_secs >= 1844674407 {
+            "> 57 years".to_string()
         } else {
-            "❌"
+            format!("{}", &time_to_crack)
         };
+
+        let recommended =
+            if estimator.score() > 3 && entropy >= 5 && time_to_crack_secs > 10 * YEAR_IN_SECONDS {
+                "✅"
+            } else {
+                "❌"
+            };
 
         PasswordSummary {
             password: password.to_string(),
             recommended: recommended.to_string(),
             entropy,
-            time_to_crack: format!("{}", &time_to_crack),
+            time_to_crack: time_to_crack_str,
         }
     }
 }
