@@ -44,7 +44,7 @@ pub fn generate_char_password(length: usize) -> String {
 
     (0..length)
         .map(|_| {
-            let index: usize = rng.gen::<usize>() % CHARS.len();
+            let index: usize = rng.gen_range(0..CHARS.len());
             CHARS.get(index).unwrap().to_string()
         })
         .collect::<Vec<String>>()
