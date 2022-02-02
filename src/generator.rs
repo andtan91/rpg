@@ -1,4 +1,4 @@
-use rand::{random, Rng};
+use rand::Rng;
 use std::collections::HashSet;
 
 use super::data::{CHARS, WORDS};
@@ -9,7 +9,7 @@ fn generate_random_indices(n: usize, modulo: usize) -> Vec<usize> {
     let mut rng = rand::thread_rng();
 
     loop {
-        let index = rng.gen::<usize>() % modulo;
+        let index = rng.gen_range(0..modulo);
 
         if !indices.contains(&index) {
             indices.insert(index);
@@ -31,7 +31,8 @@ pub fn generate_word_password(n_words: usize, sep: &str, add_digit: bool) -> Str
         .collect();
 
     if add_digit {
-        word_list.push((random::<u8>() % 10).to_string());
+        let mut rng = rand::thread_rng();
+        word_list.push((rng.gen_range(0..10)).to_string());
     }
 
     word_list.join(&sep.to_string())
